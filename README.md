@@ -16,7 +16,8 @@ cd label-studio
 bash rebuild.sh
 ```
 Po odpalenie aplikacji należy wejść na http://localhost:8080 (lub inny odpowiedni port) założyć konto i utworzyć nowy projekt. 
-Następnie w zakładce "Settings" -> "Labeling Interface" w zakładce "Code" można zaprojektować własną stronę
+Następnie w zakładce "Settings" -> "Labeling Interface" w zakładce "Code" można zaprojektować własną stronę.
+
 Poniżej propozycja:
 
 ```xml
