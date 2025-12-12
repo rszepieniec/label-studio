@@ -1,3 +1,117 @@
+
+
+## Opis zastosowania Label Studio do zbierania danych rerankingu w mp.pl
+
+Zmiana od podstawego label-studio polega na dodania obsługi klawiatury do rankingu elementów w elemencie <Ranker>.
+
+Aby odpalić label studio
+```bash
+cd label-studio
+label-studio start
+```
+
+Aby wprowadzić zmiany po zmianie kodu wewnątrz repozyturium (możliwe, że za pierwszym razem trzeba będize zbudować frontend):
+```bash
+cd label-studio
+bash rebuild.sh
+```
+Po odpalenie aplikacji należy wejść na http://localhost:8080 (lub inny odpowiedni port) założyć konto i utworzyć nowy projekt. 
+Następnie w zakładce "Settings" -> "Labeling Interface" w zakładce "Code" można zaprojektować własną stronę
+Poniżej propozycja:
+
+```xml
+<View>
+  <!-- Wyświetl zapytanie -->
+<View style="margin:5px; width:auto; max-width:500px; min-height:45px; padding:8px; border-radius:30px; border:1px solid #dcdcdc; background-image: …;">
+  <Text name="text" value="$text"/>
+</View>
+  
+  <!-- Ranking wyników -->
+  <View className="dynamic_choices" style="margin-top:10px;">
+    <Header value="Rank the search results"/>
+    <List name="candidate_list" value="$options"/>
+    <Ranker name="ranking" toName="candidate_list"/>
+  </View>
+
+  <!-- Rating jakości -->
+  <View style="box-shadow:2px 2px 5px #999; padding:20px; margin-top:1em; border-radius:5px;">
+    <Header value="Search Quality"/>
+    <Rating name="relevance" toName="text"/>
+  </View>
+
+  <!-- Labeling Confidence -->
+  <View style="box-shadow:2px 2px 5px #999; padding:20px; margin-top:1em; border-radius:5px;">    <Header value="Labeling Confidence" style="font-size:1.25em"/>
+    <Rating name="confidence" toName="text"/>
+    
+  </View>
+
+  <Style>
+    .searchresultsarea {
+      margin-left:10px;
+      font-family:'Arial';
+    }
+    .searchresult {
+      margin-left:8px;
+    }
+    .searchresult h2 {
+      font-size:19px;
+      line-height:18px;
+      font-weight:normal;
+      color:rgb(29,1,189);
+      margin-bottom:0px;
+      margin-top:25px;
+    }
+    .searchresult a {
+      font-size:14px;
+      line-height:14px;
+      color:green;
+      margin-bottom:0px;
+    }
+    .searchresult button {
+      font-size:10px;
+      line-height:14px;
+      color:green;
+      margin-bottom:0px;
+      padding:0px;
+      border-width:0px;
+      background-color:white;
+    }
+  </Style>
+</View>
+```
+
+Do projektu można importować pliki w formacie json z danymi. Poniżej przykładowy plik:
+
+```json
+[
+  {
+    "data": {
+      "text": "Przykładowe zapytanie: jaki jest najlepszy laptop do programowania?",
+      "options": [
+        { "id": "opt1", "title": "Laptop A — 16 GB RAM, 1 TB SSD", "body": "Opis laptopa A..." },
+        { "id": "opt2", "title": "Laptop B — 32 GB RAM, 512 GB SSD", "body": "Opis laptopa B..." },
+        { "id": "opt3", "title": "Laptop C — 16 GB RAM, 512 GB SSD, grafika", "body": "Opis laptopa C..." }
+      ]
+    }
+  },
+  {
+    "data": {
+      "text": "Przykładowe zapytanie: jaki jest najlepszy laptop do programowania?",
+      "options": [
+        { "id": "opt1", "title": "Laptop A — 16 GB RAM, 1 TB SSD", "body": "Opis laptopa A..." },
+        { "id": "opt2", "title": "Laptop B — 32 GB RAM, 512 GB SSD", "body": "Opis laptopa B..." },
+        { "id": "opt3", "title": "Laptop C — 16 GB RAM, 512 GB SSD, grafika", "body": "Opis laptopa C..." },
+        { "id": "opt4", "title": "Laptop A — 32 GB RAM, 1 TB SSD", "body": "Opis laptopa D..." }
+      ]
+    }
+  }
+]
+```
+
+
+---
+
+
 <img src="https://user-images.githubusercontent.com/12534576/192582340-4c9e4401-1fe6-4dbb-95bb-fdbba5493f61.png"/>
 
 ![GitHub](https://img.shields.io/github/license/heartexlabs/label-studio?logo=heartex) ![label-studio:build](https://github.com/HumanSignal/label-studio/workflows/label-studio:build/badge.svg) ![GitHub release](https://img.shields.io/github/v/release/heartexlabs/label-studio?include_prereleases)
